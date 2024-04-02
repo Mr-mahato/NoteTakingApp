@@ -1,17 +1,8 @@
 import React from "react";
 import TakeNote from "./TakeNote";
 
-function NoteList() {
-  const dataFromLocalStorage = JSON.parse(localStorage.getItem("Notes"));
-  const noteList = dataFromLocalStorage == null ? [] : dataFromLocalStorage;
+function NoteList({noteList , handelAddedNote , handleDelete}) {
 
-  const handleDelete = (id) => {
-    const dataFronLocalStorage = JSON.parse(localStorage.getItem("Notes"));
-
-    const ind = dataFromLocalStorage.findIndex((val) => val.id == id);
-    dataFromLocalStorage.splice(ind, 1);
-    localStorage.setItem("Notes", JSON.stringify(dataFromLocalStorage));
-  };
   const Notes = noteList.map((note) => {
     return (
       <div
@@ -35,7 +26,7 @@ function NoteList() {
   return (
     <div className="flex flex-wrap ">
       {Notes}
-      <TakeNote />
+      <TakeNote handelAddedNote={handelAddedNote}/>
     </div>
   );
 }
