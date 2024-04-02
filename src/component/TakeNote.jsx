@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function TakeNote() {
+function TakeNote({ handelAddedNote }) {
   const [wordCount, setWordCount] = useState(200);
   const [note, setNote] = useState("");
   const handelChange = (e) => {
@@ -8,21 +8,19 @@ function TakeNote() {
     setWordCount(200 - e.target.value.length);
   };
 
-  const handelAddedNote = () => {
+  const handelSave = () => {
     if (note.length == 0) {
       alert("add some notes");
       return;
     }
-    const dataFromLocalStorage = JSON.parse(localStorage.getItem("Notes"));
-    const noteList = dataFromLocalStorage == null ? [] : dataFromLocalStorage;
     const id = Math.floor(Math.random() * 1000);
     const today = new Date();
     const noteTakenDate = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
-    noteList.push({ note, id, noteTakenDate });
-    localStorage.setItem("Notes", JSON.stringify(noteList));
+    handelAddedNote({ note, id, noteTakenDate });
     setNote("");
   };
 
+  
   return (
     <div className="bg-[#67D7CC] rounded-md w-[270px] h-[300px] m-2  mt-10">
       <textarea
@@ -36,7 +34,7 @@ function TakeNote() {
       ></textarea>
       <div className="flex  p-2 justify-between">
         <h1 className="">{wordCount} remaining</h1>
-        <button onClick={handelAddedNote} className=" bg-white px-2 rounded-lg">
+        <button onClick={handelSave} className=" bg-white px-2 rounded-lg">
           Save
         </button>
       </div>
